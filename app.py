@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# Function to load the trained model
-def load_model():
-    with open('best_lr_model.pkl', 'rb') as file:
-        model = pickle.load(file)
-    return model
+# load the trained model
+mdl = 'best_lr_model.pkl'
+model = pickle.load(open(mdl, 'rb')
 
 # Function to encode teams (dummy implementation, replace with actual encoding logic)
 def encode_team(team, team_mapping):
@@ -72,20 +70,11 @@ goals_conceded_last_5_away = st.number_input("Goals conceded in last 5 games (Aw
 
 
 
+
 # Predict and Display Results
 if st.button("Predict Outcome"):
     if home_team != away_team:
         
-        model = load_model()
-
-        # Encode the selected teams
-        home_encoded = teams_mapping(home_team, team_mapping)
-        away_encoded = teams_mapping(away_team, team_mapping)
-
-# Predict and Display Results
-if st.button("Predict Outcome"):
-    if home_team != away_team:
-        model = load_model()
 
         # Encode the selected teams
         home_encoded = encode_team(home_team, teams_mapping)
