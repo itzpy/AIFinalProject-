@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 
 # Load the trained model
 def load_model():
-    mdl = "C:\\Users\\rayba\\Downloads\\best_lr_model.pkl"
+    mdl = "best_lr_model.pkl"
     with open(mdl, 'rb') as file:
         model = pickle.load(file)
     return model
