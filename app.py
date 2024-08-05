@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
-import os
+
 
 # Load the trained model
 def load_model():
