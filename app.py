@@ -12,8 +12,7 @@ def load_model():
 def encode_team(team, team_mapping):
     return team_mapping.get(team, -1)
 
-# Load the team names and mappings (replace with actual data and mappings)
-
+# Load the team names and mappings
 teams = ['Coventry City', 'Southampton', 'Everton', 'Ipswich Town', 'Chelsea',
          'Crystal Palace', 'Sheffield Utd', 'Leeds United', 'Arsenal',
          "Nott'ham Forest", 'Manchester City', 'Blackburn', 'Wimbledon', 'QPR',
@@ -25,6 +24,7 @@ teams = ['Coventry City', 'Southampton', 'Everton', 'Ipswich Town', 'Chelsea',
          'Wolves', 'Wigan Athletic', 'Reading', 'Hull City', 'Stoke City', 'Burnley', 
          'Blackpool', 'Swansea City', 'Cardiff City', 'Bournemouth', 'Brighton', 
          'Huddersfield', 'Brentford']
+
 teams_mapping =  {
     'Coventry City': 0, 'Southampton': 1, 'Everton': 2, 'Ipswich Town': 3,
     'Chelsea': 4, 'Crystal Palace': 5, 'Sheffield Utd': 6, 'Leeds United': 7,
@@ -54,8 +54,8 @@ if st.button("Predict Outcome"):
         model = load_model()
 
         # Encode the selected teams
-        home_encoded = encode_team(home_team, team_mapping)
-        away_encoded = encode_team(away_team, team_mapping)
+        home_encoded = encode_team(home_team, teams_mapping)
+        away_encoded = encode_team(away_team, teams_mapping)
 
         # Prepare input data for prediction
         input_data = pd.DataFrame([[home_encoded, away_encoded]], columns=['home_team', 'away_team'])
