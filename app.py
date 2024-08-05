@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-import keras
+# import keras
 
 
 # Load the trained model
