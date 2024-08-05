@@ -3,8 +3,19 @@ import pandas as pd
 import pickle
 
 # load the trained model
-mdl = 'best_lr_model.pkl'
-model = pickle.load(open(mdl, 'rb'))
+import os
+
+def load_model():
+    mdl = 'best_lr_model.pkl'
+    if not os.path.exists(mdl):
+        raise FileNotFoundError(f"Model file {mdl} not found.")
+    with open(mdl, 'rb') as file:
+        try:
+            model = pickle.load(file)
+        except Exception as e:
+            raise RuntimeError(f"Error loading model: {e}")
+    return model
+
 
 # Function to encode teams (dummy implementation, replace with actual encoding logic)
 def encode_team(team, team_mapping):
