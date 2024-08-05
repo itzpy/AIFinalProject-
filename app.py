@@ -49,7 +49,7 @@ teams_mapping =  {
 teams_sorted = sorted(teams)
 
 # Streamlit App
-st.title("Match Predictions App")
+st.title("English Premier League Match Predictions App")
 
 # User Input: Select teams
 home_team = st.selectbox("Select Home Team", teams_sorted)
