@@ -7,8 +7,7 @@ import os
 def load_model():
     mdl = 'best_lr_model.pkl'
     with open(mdl, 'rb') as file:
-        try:
-            model = pickle.load(file)
+        model = pickle.load(file)
     return model
     
 
