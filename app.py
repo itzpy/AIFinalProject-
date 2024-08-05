@@ -3,7 +3,6 @@ import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
 
-# import keras
 
 
 # Load the trained model
