@@ -41,12 +41,46 @@ teams_mapping =  {
     'Huddersfield': 48, 'Brentford': 49
 }
 
+
+
+
+
 # Streamlit App
 st.title("Match Predictions App")
 
 # User Input: Select teams
 home_team = st.selectbox("Select Home Team", teams)
 away_team = st.selectbox("Select Away Team", teams)
+
+
+points_last_5_home = st.number_input("Points gained in the last 5 games (Home)", min_value=0, max_value=15)
+points_last_5_away = st.number_input("Points gained in the last 5 games (Away)", min_value=0, max_value=15)
+points_home = st.number_input("Total points for Home Team", min_value=0, max_value=100)
+points_away = st.number_input("Total points for Away Team", min_value=0, max_value=100)
+games_played_home = st.number_input("Number of games played (Home)", min_value=0, max_value=38)
+games_played_away = st.number_input("Number of games played (Away)", min_value=0, max_value=38)
+wins_home = st.number_input("Wins (Home)", min_value=0, max_value=38)
+losses_home = st.number_input("Losses (Home)", min_value=0, max_value=38)
+draws_home = st.number_input("Draws (Home)", min_value=0, max_value=38)
+wins_away = st.number_input("Wins (Away)", min_value=0, max_value=38)
+losses_away = st.number_input("Losses (Away)", min_value=0, max_value=38)
+draws_away = st.number_input("Draws (Away)", min_value=0, max_value=38)
+goals_scored_last_5_home = st.number_input("Goals scored in last 5 games (Home)", min_value=0, max_value=100)
+goals_conceded_last_5_home = st.number_input("Goals conceded in last 5 games (Home)", min_value=0, max_value=100)
+goals_scored_last_5_away = st.number_input("Goals scored in last 5 games (Away)", min_value=0, max_value=100)
+goals_conceded_last_5_away = st.number_input("Goals conceded in last 5 games (Away)", min_value=0, max_value=100)
+
+
+
+# Predict and Display Results
+if st.button("Predict Outcome"):
+    if home_team != away_team:
+        
+        model = load_model()
+
+        # Encode the selected teams
+        home_encoded = teams_mapping(home_team, team_mapping)
+        away_encoded = teams_mapping(away_team, team_mapping)
 
 # Predict and Display Results
 if st.button("Predict Outcome"):
@@ -57,8 +91,26 @@ if st.button("Predict Outcome"):
         home_encoded = encode_team(home_team, teams_mapping)
         away_encoded = encode_team(away_team, teams_mapping)
 
+        features = {
+        'diffFormPts': points_last_5_home - points_last_5_away,
+        'home_team_formPts': points_last_5_home,
+        'home_team_GDform': goals_scored_last_5_home - goals_conceded_last_5_home,
+        'away_team_formPts': points_last_5_away,
+        'away_team_draw_ratio': draws_away / (games_played_away if games_played_away > 0 else 1),
+        'away_team_GDform': goals_scored_last_5_away - goals_conceded_last_5_away,
+        'home_team_draw_ratio': draws_home / (games_played_home if games_played_home > 0 else 1),
+        'diffPts': points_home - points_away,
+        'away_team_loss_ratio': losses_away / (games_played_away if games_played_away > 0 else 1),
+        'home_team_win_ratio': wins_home / (games_played_home if games_played_home > 0 else 1),
+        'away_team_win_ratio': wins_away / (games_played_away if games_played_away > 0 else 1),
+        'home_team_loss_ratio': losses_home / (games_played_home if games_played_home > 0 else 1),
+        'away_team_avg_goals_conceded': goals_conceded_last_5_away / 5,
+        'away_team_avg_goals_scored': goals_scored_last_5_away / 5,
+        'home_team_avg_goals_scored': goals_scored_last_5_home / 5
+    }
+
         # Prepare input data for prediction
-        input_data = pd.DataFrame([[home_encoded, away_encoded]], columns=['home_team', 'away_team'])
+        input_data = pd.DataFrame([features])
 
         # Prediction
         prediction = model.predict(input_data)
