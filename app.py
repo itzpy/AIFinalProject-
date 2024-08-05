@@ -6,14 +6,11 @@ import os
 # Load the trained model
 def load_model():
     mdl = 'best_lr_model.pkl'
-    if not os.path.exists(mdl):
-        raise FileNotFoundError(f"Model file {mdl} not found.")
     with open(mdl, 'rb') as file:
         try:
             model = pickle.load(file)
-        except Exception as e:
-            raise RuntimeError(f"Error loading model: {e}")
     return model
+    
 
 # Function to encode teams (dummy implementation, replace with actual encoding logic)
 def encode_team(team, team_mapping):
@@ -55,22 +52,22 @@ st.title("Match Predictions App")
 home_team = st.selectbox("Select Home Team", teams)
 away_team = st.selectbox("Select Away Team", teams)
 
-points_last_5_home = st.number_input("Points gained in the last 5 games (Home)", min_value=0, max_value=15)
-points_last_5_away = st.number_input("Points gained in the last 5 games (Away)", min_value=0, max_value=15)
-points_home = st.number_input("Total points for Home Team", min_value=0, max_value=100)
-points_away = st.number_input("Total points for Away Team", min_value=0, max_value=100)
-games_played_home = st.number_input("Number of games played (Home)", min_value=0, max_value=38)
-games_played_away = st.number_input("Number of games played (Away)", min_value=0, max_value=38)
-wins_home = st.number_input("Wins (Home)", min_value=0, max_value=38)
-losses_home = st.number_input("Losses (Home)", min_value=0, max_value=38)
-draws_home = st.number_input("Draws (Home)", min_value=0, max_value=38)
-wins_away = st.number_input("Wins (Away)", min_value=0, max_value=38)
-losses_away = st.number_input("Losses (Away)", min_value=0, max_value=38)
-draws_away = st.number_input("Draws (Away)", min_value=0, max_value=38)
-goals_scored_last_5_home = st.number_input("Goals scored in last 5 games (Home)", min_value=0, max_value=100)
-goals_conceded_last_5_home = st.number_input("Goals conceded in last 5 games (Home)", min_value=0, max_value=100)
-goals_scored_last_5_away = st.number_input("Goals scored in last 5 games (Away)", min_value=0, max_value=100)
-goals_conceded_last_5_away = st.number_input("Goals conceded in last 5 games (Away)", min_value=0, max_value=100)
+# points_last_5_home = st.number_input("Points gained in the last 5 games (Home)", min_value=0, max_value=15)
+# points_last_5_away = st.number_input("Points gained in the last 5 games (Away)", min_value=0, max_value=15)
+# points_home = st.number_input("Total points for Home Team", min_value=0, max_value=100)
+# points_away = st.number_input("Total points for Away Team", min_value=0, max_value=100)
+# games_played_home = st.number_input("Number of games played (Home)", min_value=0, max_value=38)
+# games_played_away = st.number_input("Number of games played (Away)", min_value=0, max_value=38)
+# wins_home = st.number_input("Wins (Home)", min_value=0, max_value=38)
+# losses_home = st.number_input("Losses (Home)", min_value=0, max_value=38)
+# draws_home = st.number_input("Draws (Home)", min_value=0, max_value=38)
+# wins_away = st.number_input("Wins (Away)", min_value=0, max_value=38)
+# losses_away = st.number_input("Losses (Away)", min_value=0, max_value=38)
+# draws_away = st.number_input("Draws (Away)", min_value=0, max_value=38)
+# goals_scored_last_5_home = st.number_input("Goals scored in last 5 games (Home)", min_value=0, max_value=100)
+# goals_conceded_last_5_home = st.number_input("Goals conceded in last 5 games (Home)", min_value=0, max_value=100)
+# goals_scored_last_5_away = st.number_input("Goals scored in last 5 games (Away)", min_value=0, max_value=100)
+# goals_conceded_last_5_away = st.number_input("Goals conceded in last 5 games (Away)", min_value=0, max_value=100)
 
 # Predict and Display Results
 if st.button("Predict Outcome"):
