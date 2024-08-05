@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
 
-
+# import keras
 
 
 # Load the trained model
@@ -47,14 +47,12 @@ teams_mapping =  {
     'Huddersfield': 48, 'Brentford': 49
 }
 
-teams_sorted = sorted(teams)
-
 # Streamlit App
 st.title("Match Predictions App")
 
 # User Input: Select teams
-home_team = st.selectbox("Select Home Team", teams_sorted)
-away_team = st.selectbox("Select Away Team", teams_sorted)
+home_team = st.selectbox("Select Home Team", teams)
+away_team = st.selectbox("Select Away Team", teams)
 
 points_last_5_home = st.number_input("Points gained in the last 5 games (Home)", min_value=0, max_value=15)
 points_last_5_away = st.number_input("Points gained in the last 5 games (Away)", min_value=0, max_value=15)
