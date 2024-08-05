@@ -24,21 +24,22 @@ teams = ['Coventry City' 'Southampton' 'Everton' 'Ipswich Town' 'Chelsea'
  'West Brom' 'Birmingham City' 'Portsmouth' 'Wolves' 'Wigan Athletic'
  'Reading' 'Hull City' 'Stoke City' 'Burnley' 'Blackpool' 'Swansea City'
  'Cardiff City' 'Bournemouth' 'Brighton' 'Huddersfield' 'Brentford']
-teams_mapping = {
-    'Coventry City': 0, 'Southampton': 1, 'Everton': 2, 'Ipswich Town': 3, 'Chelsea': 4,
-    'Crystal Palace': 5, 'Sheffield Utd': 6, 'Leeds United': 7, 'Arsenal': 8,
-    "Nott'ham Forest": 9, 'Manchester City': 10, 'Blackburn': 11, 'Wimbledon': 12,
-    'QPR': 13, 'Sheffield Weds': 14, 'Manchester Utd': 15, 'Norwich City': 16,
-    'Tottenham': 17, 'Oldham Athletic': 18, 'Aston Villa': 19, 'Liverpool': 20,
-    'Middlesbrough': 21, 'West Ham': 22, 'Newcastle Utd': 23, 'Swindon Town': 24,
-    'Leicester City': 25, 'Bolton': 26, 'Derby County': 27, 'Sunderland': 28,
-    'Barnsley': 29, 'Charlton Ath': 30, 'Watford': 31, 'Bradford City': 32,
-    'Fulham': 33, 'West Brom': 34, 'Birmingham City': 35, 'Portsmouth': 36,
-    'Wolves': 37, 'Wigan Athletic': 38, 'Reading': 39, 'Hull City': 40,
-    'Stoke City': 41, 'Burnley': 42, 'Blackpool': 43, 'Swansea City': 44,
-    'Cardiff City': 45, 'Bournemouth': 46, 'Brighton': 47, 'Huddersfield': 48,
-    'Brentford': 49
+teams_mapping =  {
+    'Coventry City': 0, 'Southampton': 1, 'Everton': 2, 'Ipswich Town': 3,
+    'Chelsea': 4, 'Crystal Palace': 5, 'Sheffield Utd': 6, 'Leeds United': 7,
+    'Arsenal': 8, "Nott'ham Forest": 9, 'Manchester City': 10, 'Blackburn': 11,
+    'Wimbledon': 12, 'QPR': 13, 'Sheffield Weds': 14, 'Manchester Utd': 15,
+    'Norwich City': 16, 'Tottenham': 17, 'Oldham Athletic': 18, 'Aston Villa': 19,
+    'Liverpool': 20, 'Middlesbrough': 21, 'West Ham': 22, 'Newcastle Utd': 23,
+    'Swindon Town': 24, 'Leicester City': 25, 'Bolton': 26, 'Derby County': 27,
+    'Sunderland': 28, 'Barnsley': 29, 'Charlton Ath': 30, 'Watford': 31,
+    'Bradford City': 32, 'Fulham': 33, 'West Brom': 34, 'Birmingham City': 35,
+    'Portsmouth': 36, 'Wolves': 37, 'Wigan Athletic': 38, 'Reading': 39,
+    'Hull City': 40, 'Stoke City': 41, 'Burnley': 42, 'Blackpool': 43,
+    'Swansea City': 44, 'Cardiff City': 45, 'Bournemouth': 46, 'Brighton': 47,
+    'Huddersfield': 48, 'Brentford': 49
 }
+
 # Streamlit App
 st.title("Match Predictions App")
 
