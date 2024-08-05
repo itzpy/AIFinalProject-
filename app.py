@@ -13,7 +13,16 @@ def encode_team(team, team_mapping):
     return team_mapping.get(team, -1)
 
 # Load the team names and mappings (replace with actual data and mappings)
-teams = ['Team A', 'Team B', 'Team C', 'Team D']
+teams = ['Coventry City' 'Southampton' 'Everton' 'Ipswich Town' 'Chelsea'
+ 'Crystal Palace' 'Sheffield Utd' 'Leeds United' 'Arsenal'
+ "Nott'ham Forest" 'Manchester City' 'Blackburn' 'Wimbledon' 'QPR'
+ 'Sheffield Weds' 'Manchester Utd' 'Norwich City' 'Tottenham'
+ 'Oldham Athletic' 'Aston Villa' 'Liverpool' 'Middlesbrough' 'West Ham'
+ 'Newcastle Utd' 'Swindon Town' 'Leicester City' 'Bolton' 'Derby County'
+ 'Sunderland' 'Barnsley' 'Charlton Ath' 'Watford' 'Bradford City' 'Fulham'
+ 'West Brom' 'Birmingham City' 'Portsmouth' 'Wolves' 'Wigan Athletic'
+ 'Reading' 'Hull City' 'Stoke City' 'Burnley' 'Blackpool' 'Swansea City'
+ 'Cardiff City' 'Bournemouth' 'Brighton' 'Huddersfield' 'Brentford']
 team_mapping = {team: idx for idx, team in enumerate(teams)}
 
 # Streamlit App
