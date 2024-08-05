@@ -27,6 +27,7 @@ from sklearn.pipeline import Pipeline
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Input
 
+
 from google.colab import drive
 drive.mount('/content/drive')
 
@@ -547,7 +548,8 @@ print(confusion_matrix(y_test, dt_pred))
 print("\nDecision Tree Classification Report:")
 print(classification_report(y_test, dt_pred))
 
-# Infer input shape
+#Training using Neural Networks
+  # Infer input shape
 input_shape = X_train_scaled.shape[1]
 
 # Build the model
@@ -566,7 +568,7 @@ model.add(Dense(3, activation='softmax'))  # Output layer
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # Train the model with integer-encoded labels
-history = model.fit(X_train_scaled, y_train, epochs=1000, batch_size=32, validation_data=(X_test_scaled, y_test))
+history = model.fit(X_train_scaled, y_train, epochs=100, batch_size=32, validation_data=(X_test_scaled, y_test))
 
 
 # Evaluate the model
@@ -575,81 +577,9 @@ print(f'Test Loss: {loss:.4f}, Test Accuracy: {accuracy:.4f}')
 
 import pickle
 
-# Save the best model from GridSearchCV
-with open('best_lr_model.pkl', 'wb') as file:
+#Since logistic Regression had the highest accuracy, that is now our best model
+
+# Save to Google Drive
+model_path = '/content/drive/My Drive/best_lr_model.pkl'
+with open(model_path, 'wb') as file:
     pickle.dump(lr_best_model, file)
-
-! pip install streamlit -q
-
-# Commented out IPython magic to ensure Python compatibility.
-# %%writefile app.py
-# 
-# 
-# import streamlit as st
-# import pandas as pd
-# import pickle
-# from sklearn.preprocessing import StandardScaler
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# from sklearn.model_selection import train_test_split
-# from sklearn.ensemble import RandomForestClassifier
-# 
-# 
-# # Title of the app
-# st.title("Match Predictions App")
-# 
-# # Load the saved model
-# with open('best_lr_model.pkl', 'rb') as file:
-#     loaded_model = pickle.load(file)
-# 
-# 
-# 
-# 
-# #upload the file again
-# 
-# uploaded_file = st.file_uploader("C:\\Users\\rayba\\Downloads\\premier-league-matches.csv", type="csv")
-# if uploaded_file is not None:
-#     # Load the data
-#     final_dataset = pd.read_csv(uploaded_file)
-#     st.write(final_dataset.head())
-# 
-#     # Show data information
-#     st.write("Data Information:")
-#     st.write(final_dataset.info())
-# 
-#     # Select features and target
-#     if st.checkbox("Select features and target"):
-#         features = st.multiselect("Select features", final_dataset.columns.tolist())
-#         target = st.selectbox("Select target variable", final_dataset.columns.tolist())
-# 
-#         # Split the data
-#         X = final_dataset[features]
-#         y = final_dataset[target]#
-#         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-# 
-#         # Train a model
-#         model = RandomForestClassifier()
-#         model.fit(X_train, y_train)
-# 
-#         # Show model accuracy
-#         accuracy = model.score(X_test, y_test)
-#         st.write(f"Model Accuracy: {accuracy:.2f}")
-# 
-# # Visualizations
-# if st.checkbox("Show Visualizations"):
-#     st.subheader("Home Goals Distribution")
-#     sns.histplot(final_dataset['HomeGoals'], kde=True)
-#     st.pyplot(plt)
-# 
-#     st.subheader("Away Goals Distribution")
-#     sns.histplot(final_dataset['AwayGoals'], kde=True)
-#     st.pyplot(plt)
-# 
-# 
-#
-
-! wget -q -O - ipv4.icanhazip.com
-
-! streamlit run app.py & npx localtunnel --port 8501
-
