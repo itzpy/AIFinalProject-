@@ -1,49 +1,45 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+import pickle
 
-# Title of the app
+# Function to load the trained model
+def load_model():
+    with open('best_lr_model.pkl', 'rb') as file:
+        model = pickle.load(file)
+    return model
+
+# Function to encode teams (dummy implementation, replace with actual encoding logic)
+def encode_team(team, team_mapping):
+    return team_mapping.get(team, -1)
+
+# Load the team names and mappings (replace with actual data and mappings)
+teams = ['Team A', 'Team B', 'Team C', 'Team D']
+team_mapping = {team: idx for idx, team in enumerate(teams)}
+
+# Streamlit App
 st.title("Match Predictions App")
 
-# Upload CSV file
-uploaded_file = st.file_uploader("C:\\Users\\rayba\\Downloads\\premier-league-matches.csv", type="csv")
-if uploaded_file is not None:
-    # Load the data
-    final_dataset = pd.read_csv(uploaded_file)
-    st.write(final_dataset.head())
-    
-    # Show data information
-    st.write("Data Information:")
-    st.write(final_dataset.info())
-    
-    # Select features and target
-    if st.checkbox("Select features and target"):
-        features = st.multiselect("Select features", final_dataset.columns.tolist())
-        target = st.selectbox("Select target variable", final_dataset.columns.tolist())
+# User Input: Select teams
+home_team = st.selectbox("Select Home Team", teams)
+away_team = st.selectbox("Select Away Team", teams)
 
-        # Split the data
-        X = final_dataset[features]
-        y = final_dataset[target]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Predict and Display Results
+if st.button("Predict Outcome"):
+    if home_team != away_team:
+        model = load_model()
 
-        # Train a model
-        model = RandomForestClassifier()
-        model.fit(X_train, y_train)
+        # Encode the selected teams
+        home_encoded = encode_team(home_team, team_mapping)
+        away_encoded = encode_team(away_team, team_mapping)
 
-        # Show model accuracy
-        accuracy = model.score(X_test, y_test)
-        st.write(f"Model Accuracy: {accuracy:.2f}")
+        # Prepare input data for prediction
+        input_data = pd.DataFrame([[home_encoded, away_encoded]], columns=['home_team', 'away_team'])
 
-# Visualizations
-if st.checkbox("Show Visualizations"):
-    st.subheader("Home Goals Distribution")
-    sns.histplot(final_dataset['HomeGoals'], kde=True)
-    st.pyplot(plt)
+        # Prediction
+        prediction = model.predict(input_data)
 
-    st.subheader("Away Goals Distribution")
-    sns.histplot(final_dataset['AwayGoals'], kde=True)
-    st.pyplot(plt)
+        # Display the predicted result
+        result = "Home Win" if prediction == 1 else "Away Win" if prediction == 0 else "Draw"
+        st.write(f"Predicted Outcome: {result}")
+    else:
+        st.write("Home team and away team cannot be the same.")
