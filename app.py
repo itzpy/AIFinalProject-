@@ -4,7 +4,7 @@ import pickle
 
 # load the trained model
 mdl = 'best_lr_model.pkl'
-model = pickle.load(open(mdl, 'rb')
+model = pickle.load(open(mdl, 'rb'))
 
 # Function to encode teams (dummy implementation, replace with actual encoding logic)
 def encode_team(team, team_mapping):
