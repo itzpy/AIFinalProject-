@@ -3,7 +3,36 @@ import pandas as pd
 import pickle
 from sklearn.linear_model import LogisticRegression
 
+# Set page config
+st.set_page_config(
+    page_title="Premier League Predictor",
+    page_icon="⚽",
+    layout="wide"
+)
 
+# Custom CSS
+st.markdown("""
+    <style>
+    .main {
+        padding: 2rem;
+    }
+    .stTitle {
+        color: #37003c;
+        font-size: 3rem !important;
+        padding-bottom: 2rem;
+    }
+    .stSelectbox label {
+        color: #37003c;
+        font-weight: 500;
+    }
+    .stButton button {
+        background-color: #37003c;
+        color: white;
+        padding: 0.5rem 2rem;
+        width: 100%;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # Load the trained model
 def load_model():
@@ -48,65 +77,120 @@ teams_mapping =  {
 
 teams_sorted = sorted(teams)
 
-# Streamlit App
-st.title("English Premier League Match Predictions App")
+# App Layout
+st.title("Premier League Match Predictor 🏆")
+st.markdown("---")
 
-# User Input: Select teams
-home_team = st.selectbox("Select Home Team", teams_sorted)
-away_team = st.selectbox("Select Away Team", teams_sorted)
+# Create three columns for better layout
+col1, col2, col3 = st.columns([1, 0.2, 1])
 
-points_last_5_home = st.number_input("Points gained in the last 5 games (Home)", min_value=0, max_value=15)
-points_last_5_away = st.number_input("Points gained in the last 5 games (Away)", min_value=0, max_value=15)
-points_home = st.number_input("Total points for Home Team", min_value=0, max_value=100)
-points_away = st.number_input("Total points for Away Team", min_value=0, max_value=100)
-games_played_home = st.number_input("Number of games played (Home)", min_value=0, max_value=38)
-games_played_away = st.number_input("Number of games played (Away)", min_value=0, max_value=38)
-wins_home = st.number_input("Wins (Home)", min_value=0, max_value=38)
-losses_home = st.number_input("Losses (Home)", min_value=0, max_value=38)
-draws_home = st.number_input("Draws (Home)", min_value=0, max_value=38)
-wins_away = st.number_input("Wins (Away)", min_value=0, max_value=38)
-losses_away = st.number_input("Losses (Away)", min_value=0, max_value=38)
-draws_away = st.number_input("Draws (Away)", min_value=0, max_value=38)
-goals_scored_last_5_home = st.number_input("Goals scored in last 5 games (Home)", min_value=0, max_value=100)
-goals_conceded_last_5_home = st.number_input("Goals conceded in last 5 games (Home)", min_value=0, max_value=100)
-goals_scored_last_5_away = st.number_input("Goals scored in last 5 games (Away)", min_value=0, max_value=100)
-goals_conceded_last_5_away = st.number_input("Goals conceded in last 5 games (Away)", min_value=0, max_value=100)
+with col1:
+    st.subheader("🏠 Home Team")
+    home_team = st.selectbox("Select Home Team", teams_sorted, key="home")
+    
+    # Home team metrics in a card-like container
+    with st.container():
+        st.markdown("### Home Team Statistics")
+        col1_1, col1_2 = st.columns(2)
+        
+        with col1_1:
+            points_last_5_home = st.number_input("Last 5 Games Points", min_value=0, max_value=15, key="h1")
+            points_home = st.number_input("Total Points", min_value=0, max_value=100, key="h2")
+            games_played_home = st.number_input("Games Played", min_value=0, max_value=38, key="h3")
+            
+        with col1_2:
+            wins_home = st.number_input("Wins", min_value=0, max_value=38, key="h4")
+            losses_home = st.number_input("Losses", min_value=0, max_value=38, key="h5")
+            draws_home = st.number_input("Draws", min_value=0, max_value=38, key="h6")
+        
+        st.markdown("#### Goal Statistics")
+        col1_3, col1_4 = st.columns(2)
+        with col1_3:
+            goals_scored_last_5_home = st.number_input("Goals Scored (Last 5)", min_value=0, max_value=100, key="h7")
+        with col1_4:
+            goals_conceded_last_5_home = st.number_input("Goals Conceded (Last 5)", min_value=0, max_value=100, key="h8")
 
-# Predict and Display Results
-if st.button("Predict Outcome"):
+with col3:
+    st.subheader("✈️ Away Team")
+    away_team = st.selectbox("Select Away Team", teams_sorted, key="away")
+    
+    # Away team metrics in a card-like container
+    with st.container():
+        st.markdown("### Away Team Statistics")
+        col3_1, col3_2 = st.columns(2)
+        
+        with col3_1:
+            points_last_5_away = st.number_input("Last 5 Games Points", min_value=0, max_value=15, key="a1")
+            points_away = st.number_input("Total Points", min_value=0, max_value=100, key="a2")
+            games_played_away = st.number_input("Games Played", min_value=0, max_value=38, key="a3")
+            
+        with col3_2:
+            wins_away = st.number_input("Wins", min_value=0, max_value=38, key="a4")
+            losses_away = st.number_input("Losses", min_value=0, max_value=38, key="a5")
+            draws_away = st.number_input("Draws", min_value=0, max_value=38, key="a6")
+        
+        st.markdown("#### Goal Statistics")
+        col3_3, col3_4 = st.columns(2)
+        with col3_3:
+            goals_scored_last_5_away = st.number_input("Goals Scored (Last 5)", min_value=0, max_value=100, key="a7")
+        with col3_4:
+            goals_conceded_last_5_away = st.number_input("Goals Conceded (Last 5)", min_value=0, max_value=100, key="a8")
+
+# Center the predict button
+st.markdown("---")
+col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
+with col_btn2:
+    predict_btn = st.button("🎯 Predict Match Outcome")
+
+# Prediction logic
+if predict_btn:
     if home_team != away_team:
         model = load_model()
+        
+        # Show a spinner while predicting
+        with st.spinner('Analyzing match outcome...'):
+            # Encode the selected teams
+            home_encoded = encode_team(home_team, teams_mapping)
+            away_encoded = encode_team(away_team, teams_mapping)
 
-        # Encode the selected teams
-        home_encoded = encode_team(home_team, teams_mapping)
-        away_encoded = encode_team(away_team, teams_mapping)
+            features = {
+                'diffFormPts': points_last_5_home - points_last_5_away,
+                'home_team_formPts': points_last_5_home,
+                'home_team_GDform': goals_scored_last_5_home - goals_conceded_last_5_home,
+                'away_team_formPts': points_last_5_away,
+                'away_team_draw_ratio': draws_away / (games_played_away if games_played_away > 0 else 1),
+                'away_team_GDform': goals_scored_last_5_away - goals_conceded_last_5_away,
+                'home_team_draw_ratio': draws_home / (games_played_home if games_played_home > 0 else 1),
+                'diffPts': points_home - points_away,
+                'away_team_loss_ratio': losses_away / (games_played_away if games_played_away > 0 else 1),
+                'home_team_win_ratio': wins_home / (games_played_home if games_played_home > 0 else 1),
+                'away_team_win_ratio': wins_away / (games_played_away if games_played_away > 0 else 1),
+                'home_team_loss_ratio': losses_home / (games_played_home if games_played_home > 0 else 1),
+                'away_team_avg_goals_conceded': goals_conceded_last_5_away / 5,
+                'away_team_avg_goals_scored': goals_scored_last_5_away / 5,
+                'home_team_avg_goals_scored': goals_scored_last_5_home / 5
+            }
 
-        features = {
-            'diffFormPts': points_last_5_home - points_last_5_away,
-            'home_team_formPts': points_last_5_home,
-            'home_team_GDform': goals_scored_last_5_home - goals_conceded_last_5_home,
-            'away_team_formPts': points_last_5_away,
-            'away_team_draw_ratio': draws_away / (games_played_away if games_played_away > 0 else 1),
-            'away_team_GDform': goals_scored_last_5_away - goals_conceded_last_5_away,
-            'home_team_draw_ratio': draws_home / (games_played_home if games_played_home > 0 else 1),
-            'diffPts': points_home - points_away,
-            'away_team_loss_ratio': losses_away / (games_played_away if games_played_away > 0 else 1),
-            'home_team_win_ratio': wins_home / (games_played_home if games_played_home > 0 else 1),
-            'away_team_win_ratio': wins_away / (games_played_away if games_played_away > 0 else 1),
-            'home_team_loss_ratio': losses_home / (games_played_home if games_played_home > 0 else 1),
-            'away_team_avg_goals_conceded': goals_conceded_last_5_away / 5,
-            'away_team_avg_goals_scored': goals_scored_last_5_away / 5,
-            'home_team_avg_goals_scored': goals_scored_last_5_home / 5
-        }
+            input_data = pd.DataFrame([features])
+            prediction = model.predict(input_data)
 
-        # Prepare input data for prediction
-        input_data = pd.DataFrame([features])
-
-        # Prediction
-        prediction = model.predict(input_data)
-
-        # Display the predicted result
-        result = "Home Win" if prediction == 1 else "Away Win" if prediction == 0 else "Draw"
-        st.write(f"Predicted Outcome: {result}")
+            # Display the predicted result with styling
+            result = "Home Win 🏠" if prediction == 1 else "Away Win ✈️" if prediction == 0 else "Draw 🤝"
+            st.markdown("---")
+            st.markdown(f"""
+                <div style='text-align: center; background-color: #f0f2f6; padding: 2rem; border-radius: 10px;'>
+                    <h2 style='color: #37003c;'>Predicted Outcome</h2>
+                    <h1 style='color: #37003c; font-size: 3rem;'>{result}</h1>
+                    <p style='color: #666;'>{home_team} vs {away_team}</p>
+                </div>
+            """, unsafe_allow_html=True)
     else:
-        st.write("Home team and away team cannot be the same.")
+        st.error("⚠️ Home team and away team cannot be the same!")
+
+# Add footer
+st.markdown("---")
+st.markdown("""
+    <div style='text-align: center; color: #666;'>
+        <p>Premier League Match Predictor | Made with ❤️ using Streamlit</p>
+    </div>
+""", unsafe_allow_html=True)
